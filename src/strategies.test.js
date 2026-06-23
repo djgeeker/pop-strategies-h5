@@ -4,7 +4,9 @@ import { strategies } from "./strategies.js";
 describe("strategy links", () => {
   it("contains 10 strategy titles", () => {
     expect(strategies).toHaveLength(10);
-    expect(strategies.every((strategy) => strategy.title)).toBe(true);
+    expect(strategies.every((strategy) => strategy.title && strategy.image)).toBe(
+      true,
+    );
   });
 
   it("publishes only the first strategy link", () => {

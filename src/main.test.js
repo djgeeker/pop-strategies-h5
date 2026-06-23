@@ -18,9 +18,10 @@ describe("strategy page", () => {
     initApp(document);
 
     expect(document.querySelectorAll("a.strategy-card")).toHaveLength(1);
+    expect(document.querySelectorAll("button.strategy-card")).toHaveLength(9);
     expect(document.querySelector("a.strategy-card").href).toBe(
       "https://joyspace.jd.com/pages/Fk2oSZ1L7udhX93QEbDf",
     );
-    expect(document.querySelectorAll(".strategy-card.is-pending")).toHaveLength(9);
+    expect(document.querySelectorAll(".strategy-card.is-local")).toHaveLength(9);
   });
 });

@@ -87,17 +87,15 @@ body {
 
 .strategy-card {
   position: relative;
-  display: flex;
-  min-height: 158px;
-  flex-direction: column;
-  justify-content: center;
+  display: block;
+  aspect-ratio: 3 / 2;
   overflow: hidden;
-  padding: 24px 46% 24px 24px;
+  padding: 0;
+  appearance: none;
+  text-align: left;
   border: 1px solid var(--border);
   border-radius: 12px;
-  background:
-    linear-gradient(90deg, rgba(255, 255, 255, 0.98) 0 43%, rgba(255, 255, 255, 0.18) 70%),
-    url("/assets/strategy-tab-bg.png") center / cover no-repeat;
+  background: #ffffff;
   color: var(--text-main);
   text-decoration: none;
   box-shadow: 0 8px 24px rgba(45, 51, 62, 0.07);
@@ -107,8 +105,35 @@ body {
     transform 180ms ease;
 }
 
-.strategy-card.is-available {
+.strategy-card {
   cursor: pointer;
+}
+
+.strategy-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.strategy-copy {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  width: 58%;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 12px 20px 20px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(255, 255, 255, 0.96) 66%,
+    rgba(255, 255, 255, 0) 100%
+  );
 }
 
 .strategy-card.is-available::after {
@@ -129,21 +154,25 @@ body {
   transform: translateY(-3px);
 }
 
-.strategy-card.is-available:focus-visible {
+.strategy-card:hover {
+  border-color: rgba(225, 37, 27, 0.35);
+  box-shadow: 0 12px 28px rgba(183, 21, 13, 0.11);
+  transform: translateY(-2px);
+}
+
+.strategy-card:focus-visible {
   outline: 3px solid rgba(225, 37, 27, 0.28);
   outline-offset: 3px;
 }
 
-.strategy-card.is-pending {
-  color: #555960;
-  filter: saturate(0.76);
+.strategy-card.is-clicked {
+  animation: card-press 260ms ease;
 }
 
 .strategy-number,
 .strategy-name,
 .strategy-status {
-  position: relative;
-  z-index: 1;
+  display: block;
 }
 
 .strategy-number {
@@ -154,9 +183,9 @@ body {
 }
 
 .strategy-name {
-  max-width: 150px;
-  font-size: 20px;
+  font-size: clamp(15px, 1.25vw, 20px);
   line-height: 1.35;
+  overflow-wrap: break-word;
 }
 
 .strategy-status {
@@ -165,56 +194,76 @@ body {
   font-size: 12px;
 }
 
-.strategy-card.is-available .strategy-status {
+.strategy-card .strategy-status {
   color: var(--brand-red);
   font-weight: 700;
 }
 
-@media (max-width: 1180px) {
-  .strategy-tabs {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+@keyframes card-press {
+  50% {
+    transform: scale(0.985);
   }
 }
 
 @media (max-width: 760px) {
   .strategy-section {
-    width: min(100% - 24px, 680px);
-    padding: 28px 0 calc(44px + env(safe-area-inset-bottom, 0));
+    width: min(100% - 24px, 560px);
+    padding: 26px 0 calc(40px + env(safe-area-inset-bottom, 0));
   }
 
   .section-heading {
-    margin-bottom: 18px;
+    margin-bottom: 16px;
+  }
+
+  .section-heading h2 {
+    font-size: 26px;
   }
 
   .strategy-tabs {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 
   .strategy-card {
-    min-height: 120px;
-    padding: 16px 42% 16px 14px;
+    aspect-ratio: auto;
+    min-height: 148px;
     border-radius: 10px;
   }
 
+  .strategy-art {
+    left: 42%;
+    width: 58%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .strategy-copy {
+    width: 57%;
+    padding: 20px 14px 20px 20px;
+  }
+
   .strategy-name {
-    font-size: 16px;
+    font-size: 20px;
   }
 
   .strategy-status {
-    margin-top: 8px;
-    font-size: 11px;
+    margin-top: 12px;
+    font-size: 12px;
   }
 }
 
 @media (max-width: 380px) {
-  .strategy-tabs {
-    grid-template-columns: 1fr;
+  .strategy-card {
+    min-height: 138px;
   }
 
-  .strategy-card {
-    min-height: 132px;
-    padding-left: 20px;
+  .strategy-copy {
+    width: 60%;
+    padding-left: 16px;
+  }
+
+  .strategy-name {
+    font-size: 18px;
   }
 }
 
