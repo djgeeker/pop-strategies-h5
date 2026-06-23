@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a responsive npm-based H5 page with one full-width supplied hero image, 11 strategy tabs, and one locally rendered case per strategy.
+**Goal:** Build a responsive npm-based H5 page for deployment inside 京 ME, with one full-width supplied hero image, 10 strategy tabs, and one locally rendered content panel per strategy.
 
 **Architecture:** Vite serves a framework-free ES module application. Strategy data and selection helpers live in a focused data module, while `main.js` owns DOM rendering and event binding; CSS owns all desktop/mobile presentation.
 
@@ -14,12 +14,13 @@
 
 - `package.json`: npm scripts and development dependencies.
 - `index.html`: semantic page shell and mount points.
-- `src/strategies.js`: 11-case data, safe index selection, and field normalization.
+- `src/strategies.js`: 10-strategy data, safe index selection, and field normalization.
 - `src/strategies.test.js`: unit tests for data integrity and fallback behavior.
 - `src/main.js`: tab and case rendering plus click interaction.
 - `src/main.test.js`: DOM interaction and accessibility-state tests.
 - `src/style.css`: responsive layout and visual system.
 - `public/assets/hero.png`: supplied `104.PNG` hero image.
+- `vite.config.js`: relative-path embedded deployment and WebView-compatible build target.
 
 ### Task 1: Bootstrap the tested Vite project
 
@@ -69,7 +70,7 @@ git add package.json package-lock.json index.html
 git commit -m "chore: bootstrap Vite H5 project"
 ```
 
-### Task 2: Build the 11-strategy data model with TDD
+### Task 2: Build the 10-strategy data model with TDD
 
 **Files:**
 - Create: `src/strategies.test.js`
@@ -80,8 +81,8 @@ git commit -m "chore: bootstrap Vite H5 project"
 Test that:
 
 ```js
-expect(strategies).toHaveLength(11);
-expect(strategies.every((item) => item.title && item.caseTitle)).toBe(true);
+expect(strategies).toHaveLength(10);
+expect(strategies.every((item) => item.title && item.coreLogic && item.audience)).toBe(true);
 expect(getStrategy(-1)).toEqual(strategies[0]);
 expect(getStrategy(99)).toEqual(strategies[0]);
 expect(normalizeStrategy({ title: "测试" }).result).toBe("");
@@ -98,7 +99,7 @@ Expected: FAIL because `src/strategies.js` does not exist.
 Export:
 
 ```js
-export const strategies = [/* exactly 11 complete case objects */];
+export const strategies = [/* exactly 10 complete strategy objects */];
 export function normalizeStrategy(strategy) { /* return safe string fields */ }
 export function getStrategy(index) { /* return first strategy for invalid index */ }
 ```
@@ -129,7 +130,7 @@ git commit -m "feat: add eleven strategy case records"
 Using jsdom, test that initialization:
 
 ```js
-expect(document.querySelectorAll('[role="tab"]')).toHaveLength(11);
+expect(document.querySelectorAll('[role="tab"]')).toHaveLength(10);
 expect(document.querySelector('[role="tab"][aria-selected="true"]').textContent)
   .toContain("打法 1");
 ```
@@ -139,8 +140,8 @@ Then click the third tab and assert:
 ```js
 expect(document.querySelector('[role="tab"][aria-selected="true"]').textContent)
   .toContain("打法 3");
-expect(document.querySelector("#case-title").textContent)
-  .toBe(strategies[2].caseTitle);
+expect(document.querySelector("#strategy-title").textContent)
+  .toBe(strategies[2].title);
 ```
 
 - [ ] **Step 2: Run tests and verify RED**
@@ -173,6 +174,7 @@ git commit -m "feat: add accessible strategy switching"
 **Files:**
 - Create: `public/assets/hero.png`
 - Create: `src/style.css`
+- Create: `vite.config.js`
 - Modify: `src/main.js`
 
 - [ ] **Step 1: Copy the supplied visual**
@@ -181,11 +183,11 @@ Copy `/Users/jiahaodong/Downloads/104.PNG` to `public/assets/hero.png`.
 
 - [ ] **Step 2: Implement responsive CSS**
 
-Create a JD-red visual system; preserve the hero aspect ratio; show 11 tabs in one desktop row; make only the tab strip horizontally scrollable on mobile; use a two-column case card on desktop and one column on mobile; include visible hover and focus states plus reduced-motion handling.
+Create a JD-red visual system; preserve the hero aspect ratio; show 10 tabs in one desktop row; make only the tab strip horizontally scrollable on mobile; use a two-column content card on desktop and one column on mobile; include visible hover and focus states, safe-area handling, and reduced-motion handling.
 
 - [ ] **Step 3: Add case presentation markup**
 
-Render the case eyebrow, title, summary, background, actions, highlight, and numeric result. Use text labels in addition to color for selected state.
+Render the strategy number, title, core logic, and applicable merchant profile. Use text labels in addition to color for selected state.
 
 - [ ] **Step 4: Verify unit tests**
 
@@ -224,7 +226,7 @@ Expected: local URL is available.
 At desktop and mobile widths, confirm:
 
 - hero image is visible and not distorted;
-- exactly 11 tabs are available;
+- exactly 10 tabs are available;
 - clicking multiple tabs changes the selected state and case content;
 - only the tab strip scrolls horizontally on narrow screens;
 - keyboard Tab and Enter/Space operate the strategy controls;
