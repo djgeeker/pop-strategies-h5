@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "test": "vitest run"
+    "test": "vitest run --pool=threads --maxWorkers=1"
   },
   "devDependencies": {
     "jsdom": "^26.1.0",
